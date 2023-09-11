@@ -13,7 +13,6 @@ const handleJWTExpiredError = () =>
 
 const handleDuplicateFieldDB = (err) => {
   const value = err.message.match(/name: "([^"]+)"/)[0];
-  console.log(value);
   const message = `Duplicate field value: ${value}. Please use another value`;
   return new AppError(message, 400);
 };

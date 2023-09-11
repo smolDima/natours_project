@@ -48,7 +48,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
+
   await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
@@ -63,7 +63,6 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ email: email }).select('+password');
-  console.log(user);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
@@ -98,9 +97,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 2) Verification tokenjwt
+  // 2) Verification token jwt
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  console.log(decoded);
 
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);

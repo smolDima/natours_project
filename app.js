@@ -13,6 +13,8 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const cookieParser = require('cookie-parser');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const compression = require('compression');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -86,10 +88,12 @@ app.use(
   }),
 );
 
+app.use(compression());
+
 //Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  //console.log(req.cookies);
   next();
 });
 
