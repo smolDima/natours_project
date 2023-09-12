@@ -1,17 +1,11 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const rateLimit = require('express-rate-limit');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const helmet = require('helmet');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const mongoSanitize = require('express-mongo-sanitize');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const xss = require('xss-clean');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const hpp = require('hpp');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const cookieParser = require('cookie-parser');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const compression = require('compression');
@@ -50,6 +44,9 @@ app.use((req, res, next) => {
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// Enable trust proxy
+app.set('trust proxy', 1);
 
 // Limit requests from same IP (error: Too many requests from this IP, please try again in an hour!)
 const limiter = rateLimit({
