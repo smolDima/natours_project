@@ -76,7 +76,7 @@ exports.getAll = (Model) =>
       .filter()
       .sort()
       .limitFields()
-      .raginate();
+      .paginate();
     // const doc = await features.query.explain();  explain() method is used for examining and understanding how a MongoDB query is executed and how indexes are utilized
     const doc = await features.query;
 

@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 // Get locations from HTML
 const locations = JSON.parse(document.getElementById('map').dataset.locations);
 

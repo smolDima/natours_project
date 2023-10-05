@@ -27,8 +27,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no tour with that name.', 404));
   }
 
-  // 2) Build template
-  // 3) Render temolate using data from 1
+  // 2) Render template using data retrieved
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,

@@ -5,7 +5,6 @@ class APIFeatures {
   }
 
   filter() {
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const queryObj = { ...this.querystring };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
@@ -44,7 +43,7 @@ class APIFeatures {
     return this;
   }
 
-  raginate() {
+  paginate() {
     const page = this.querystring.page * 1 || 1;
     const limit = this.querystring.limit * 1 || 100;
     const skip = (page - 1) * limit;

@@ -1,7 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const sharp = require('sharp');
+
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
@@ -37,7 +36,7 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
 
   // 1) Cover Image
-  req.body.imageCover = `royr-${req.params.id}-${Date.now()}-cover.jpeg`;
+  req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
   await sharp(req.files.imageCover[0].buffer)
     .resize(2000, 1333)
     .toFormat('jpeg')
@@ -49,7 +48,7 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
 
   await Promise.all(
     req.files.images.map(async (file, i) => {
-      const filename = `royr-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+      const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
       await sharp(file.buffer)
         .resize(2000, 1333)
         .toFormat('jpeg')
@@ -115,7 +114,7 @@ exports.getToursStats = catchAsync(async (req, res, next) => {
         _id: { $toUpper: '$difficulty' },
         num: { $sum: 1 },
         numRating: { $sum: '$ratingsQuantity' },
-        avgRaiting: { $avg: '$ratingsAverage' },
+        avgRating: { $avg: '$ratingsAverage' },
         avgPrice: { $avg: '$price' },
         minPrice: { $min: '$price' },
         maxPrice: { $max: '$price' },
@@ -163,7 +162,7 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     },
     {
       $project: {
-        _id: 0, // remove _id fieled from output
+        _id: 0, // remove _id field from output
       },
     },
     {
@@ -190,7 +189,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
   if (!lat || !lng) {
     return next(
       new AppError(
-        'Please provie latitutr and longitude in the format lat, lng.',
+        'Please provide latitude and longitude in the format lat, lng.',
         400,
       ),
     );
@@ -218,7 +217,7 @@ exports.getDistance = catchAsync(async (req, res, next) => {
   if (!lat || !lng) {
     next(
       new AppError(
-        'Please provie latitutr and longitude in the format lat, lng.',
+        'Please provide latitude and longitude in the format lat, lng.',
         400,
       ),
     );

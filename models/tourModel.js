@@ -1,8 +1,5 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const slugify = require('slugify');
-//const validator = require('validator');
 
 const tourSchema = new mongoose.Schema(
   {
@@ -36,7 +33,7 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       default: 4.5,
       min: [1, 'Rating must be above 1.0'],
-      max: [5, 'Rating must be abpve 5.0'],
+      max: [5, 'Rating can not be above 5.0'],
     },
     ratingsQuantity: {
       type: Number,
@@ -97,7 +94,7 @@ const tourSchema = new mongoose.Schema(
         type: {
           type: String,
           default: 'Point',
-          emun: ['Point'],
+          enum: ['Point'],
         },
         coordinates: [Number],
         address: String,
@@ -113,7 +110,7 @@ const tourSchema = new mongoose.Schema(
     ],
   },
   {
-    //passing options, getting the virual properties to the document/object
+    //passing options, getting the virtual properties to the document/object
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   },

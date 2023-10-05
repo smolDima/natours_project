@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { promisify } = require('util');
@@ -93,7 +92,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   if (!token) {
     return next(
-      new AppError('You are not loged in! Please log in to get access.', 401),
+      new AppError('You are not logged in! Please log in to get access.', 401),
     );
   }
 
@@ -155,7 +154,6 @@ exports.isLoggedIn = async (req, res, next) => {
   next();
 };
 
-// eslint-disable-next-line arrow-body-style
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     // roles ['admin', 'lead-guide']. role='user'
@@ -233,10 +231,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  // 1) Get user from collectio
+  // 1) Get user from collection
   const user = await User.findById(req.user.id).select('+password');
 
-  // 2) Check if POSTed current passsword is correct
+  // 2) Check if POSTed current password is correct
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
     return next(new AppError('Your current password is wrong.', 401));
   }

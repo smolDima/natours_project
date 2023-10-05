@@ -1,6 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
 const dotenv = require('dotenv'); // we need to use npm package called dotenv for using config.env
+
 const fs = require('fs');
 const Tour = require('../../models/tourModel');
 const User = require('../../models/userModel');
@@ -34,7 +34,7 @@ const importData = async () => {
     await Tour.create(tours);
     await User.create(users, { validateBeforeSave: false });
     await Review.create(reviews);
-    console.log('Data succesfully loaded!');
+    console.log('Data successfully loaded!');
     process.exit();
   } catch (err) {
     console.log(err);

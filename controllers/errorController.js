@@ -51,10 +51,10 @@ const sendErrorProd = (err, req, res) => {
         message: err.message,
       });
     }
-    // A) Programming or other unknown error: don't leak error detailes
+    // A) Programming or other unknown error: don't leak error details
     // 1) Log the error
     console.error('ERROR', err);
-    //2) Send generit message
+    //2) Send generic message
     return res.status(500).json({
       status: 'error',
       message: 'Something went very wrong!',
@@ -68,10 +68,10 @@ const sendErrorProd = (err, req, res) => {
       msg: err.message,
     });
   }
-  // B) Programming or other unknown error: don't leak error detailes
+  // B) Programming or other unknown error: don't leak error details
   // 1) Log the error
   console.error('ERROR', err);
-  //2) Send generit message
+  //2) Send generic message
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
     msg: err.message,

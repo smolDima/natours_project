@@ -1,19 +1,18 @@
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    requred: [true, 'Please tell us your name'],
+    required: [true, 'Please tell us your name'],
   },
   email: {
     type: String,
-    requred: [true, 'Please tell us your email'],
+    required: [true, 'Please tell us your email'],
     unique: true,
-    lowercasse: true,
+    lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
@@ -27,13 +26,13 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    requred: [true, 'Please provide a password'],
+    required: [true, 'Please provide a password'],
     minlength: 8,
     select: false,
   },
   passwordConfirm: {
     type: String,
-    requred: [true, 'Please confirm your password'],
+    required: [true, 'Please confirm your password'],
     validate: {
       // This is work s only on CREATE and  SAVE!!!
       validator: function (el) {
@@ -59,7 +58,7 @@ userSchema.pre('save', async function (next) {
   // Hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 12);
 
-  // Delete passwordConfirm fieled
+  // Delete passwordConfirm field
   this.passwordConfirm = undefined;
   next();
 });
@@ -77,17 +76,17 @@ userSchema.pre(/^find/, function () {
 });
 
 userSchema.methods.correctPassword = async function (
-  candidatrPassword,
+  candidatePassword,
   userPassword,
 ) {
-  return await bcrypt.compare(candidatrPassword, userPassword);
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
-    const chabgedTimestamp = this.passwordChangedAt.getTime() / 1000;
+    const changedTimestamp = this.passwordChangedAt.getTime() / 1000;
 
-    return JWTTimestamp < chabgedTimestamp;
+    return JWTTimestamp < changedTimestamp;
   }
   // False means NOT changed
   return false;

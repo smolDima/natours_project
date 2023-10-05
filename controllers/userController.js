@@ -1,22 +1,10 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const sharp = require('sharp');
+
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
-
-// const multerStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'public/img/users');
-//   },
-//   filename: (req, file, cb) => {
-//     // user-userId-timestamp.jpeg
-//     const ext = file.mimetype.split('/')[1];
-//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-//   },
-// });
 
 const multerStorage = multer.memoryStorage();
 

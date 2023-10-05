@@ -1,7 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const nodemailer = require('nodemailer');
 const pug = require('pug');
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 const htmlToText = require('html-to-text');
 
 module.exports = class Email {
@@ -22,7 +21,7 @@ module.exports = class Email {
         },
       });
     }
-    // 1) Crreate a transporter
+    // 1) Create a transporter
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,

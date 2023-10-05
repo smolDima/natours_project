@@ -1,5 +1,5 @@
-// updateData
 import axios from 'axios';
+
 import { showAlert } from './alerts.js';
 
 // type is either 'password' or 'data'

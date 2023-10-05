@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const mongoose = require('mongoose');
 const dotenv = require('dotenv'); // we need to use npm package called dotenv for using config.env
 
