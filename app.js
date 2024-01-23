@@ -99,14 +99,6 @@ app.use(
 // Compress text send to client
 app.use(compression());
 
-// TEST MIDDLEWARE ------------------------------
-// app.use((req, res, next) => {
-//   req.requestTime = new Date().toISOString();
-//   console.log(req.cookies);
-//   next();
-// });
-// END TEST -------------------------------------
-
 // ----------------------------------------------
 // Routes
 // ----------------------------------------------

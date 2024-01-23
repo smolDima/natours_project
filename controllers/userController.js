@@ -21,9 +21,9 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadUserPhoto = upload.single('photo');
+const uploadUserPhoto = upload.single('photo');
 
-exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+const resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
@@ -45,12 +45,12 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getMe = (req, res, next) => {
+const getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
-exports.updateMe = catchAsync(async (req, res, next) => {
+const updateMe = catchAsync(async (req, res, next) => {
   // 1) Create the error if user POSTS password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -78,7 +78,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteMe = catchAsync(async (req, res, next) => {
+const deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
   res.status(200).json({
     status: 'success',
@@ -86,10 +86,10 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllUsers = factory.getAll(User);
-exports.getUser = factory.getOne(User);
+const getAllUsers = factory.getAll(User);
+const getUser = factory.getOne(User);
 
-exports.createUser = (req, res) => {
+const createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
     message: 'This rout is not yet defined! Please use /signup instead',
@@ -97,6 +97,19 @@ exports.createUser = (req, res) => {
 };
 
 // Do NOT update password with this
-exports.updateUser = factory.updateOne(User);
+const updateUser = factory.updateOne(User);
 
-exports.deleteUser = factory.deleteOne(User);
+const deleteUser = factory.deleteOne(User);
+
+module.exports = {
+  uploadUserPhoto,
+  resizeUserPhoto,
+  getMe,
+  updateMe,
+  deleteMe,
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+};

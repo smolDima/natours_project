@@ -21,7 +21,7 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadTourImages = upload.fields([
+const uploadTourImages = upload.fields([
   {
     name: 'imageCover',
     maxCount: 1,
@@ -32,7 +32,7 @@ exports.uploadTourImages = upload.fields([
   },
 ]);
 
-exports.resizeTourImages = catchAsync(async (req, res, next) => {
+const resizeTourImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
 
   // 1) Cover Image
@@ -61,18 +61,16 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.aliasTopTours = (req, res, next) => {
+const aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
   req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
   next();
 };
 
-exports.getAllTours = factory.getAll(Tour);
+const getAllTours = factory.getAll(Tour);
 
-//exports.getTour = factory.getOne(Tour, { path: 'reviews' });
-
-exports.getTour = catchAsync(async (req, res, next) => {
+const getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id).populate('reviews');
 
   if (!tour) {
@@ -87,24 +85,11 @@ exports.getTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createTour = factory.createOne(Tour);
-exports.updateTour = factory.updateOne(Tour);
-exports.deleteTour = factory.deleteOne(Tour);
+const createTour = factory.createOne(Tour);
+const updateTour = factory.updateOne(Tour);
+const deleteTour = factory.deleteOne(Tour);
 
-// exports.deleteTour = catchAsync(async (req, res, next) => {
-//   const tour = await Tour.findByIdAndDelete(req.params.id);
-
-//   if (!tour) {
-//     return next(new AppError('No tour found with that ID', 404));
-//   }
-
-//   res.status(204).json({
-//     status: 'success',
-//     data: null,
-//   });
-// });
-
-exports.getToursStats = catchAsync(async (req, res, next) => {
+const getToursStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
       $match: { ratingsAverage: { $gte: 4.5 } },
@@ -135,7 +120,7 @@ exports.getToursStats = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
+const getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1;
 
   const plan = await Tour.aggregate([
@@ -180,7 +165,7 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getToursWithin = catchAsync(async (req, res, next) => {
+const getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
 
@@ -208,7 +193,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getDistance = catchAsync(async (req, res, next) => {
+const getDistance = catchAsync(async (req, res, next) => {
   const { latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
 
@@ -248,3 +233,18 @@ exports.getDistance = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+module.exports = {
+  uploadTourImages,
+  resizeTourImages,
+  aliasTopTours,
+  getAllTours,
+  getTour,
+  createTour,
+  updateTour,
+  deleteTour,
+  getToursStats,
+  getMonthlyPlan,
+  getToursWithin,
+  getDistance,
+};

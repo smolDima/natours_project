@@ -4,7 +4,7 @@ const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-exports.getOverview = catchAsync(async (req, res, next) => {
+const getOverview = catchAsync(async (req, res, next) => {
   // 1) Get tour data from collection
   const tours = await Tour.find();
 
@@ -16,7 +16,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTour = catchAsync(async (req, res, next) => {
+const getTour = catchAsync(async (req, res, next) => {
   // 1) Get data, for the requested tour (including reviews and guides)
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
@@ -34,19 +34,19 @@ exports.getTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getLoginForm = (req, res) => {
+const getLoginForm = (req, res) => {
   res.status(200).render('login', {
     title: 'Log into your account',
   });
 };
 
-exports.getAccount = (req, res) => {
+const getAccount = (req, res) => {
   res.status(200).render('account', {
     title: 'Your account',
   });
 };
 
-exports.getMyTours = catchAsync(async (req, res, next) => {
+const getMyTours = catchAsync(async (req, res, next) => {
   // 1) Find all booking
   const bookings = await Booking.find({ user: req.user.id });
   // 2) Find tours with the returnedIDs
@@ -59,7 +59,7 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateUserData = catchAsync(async (req, res, next) => {
+const updateUserData = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
     {
@@ -76,3 +76,12 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
     user: updatedUser,
   });
 });
+
+module.exports = {
+  getOverview,
+  getTour,
+  getLoginForm,
+  getAccount,
+  getMyTours,
+  updateUserData,
+};

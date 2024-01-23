@@ -5,7 +5,7 @@ const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
-exports.getCheckoutSession = catchAsync(async (req, res, next) => {
+const getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
 
@@ -46,7 +46,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createBookingCheckout = catchAsync(async (req, res, next) => {
+const createBookingCheckout = catchAsync(async (req, res, next) => {
   //This is only TEMPORARY, because it's UNSECURE: everyone can make booking without paying
   const { tour, user, price } = req.query;
 
@@ -56,8 +56,18 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   res.redirect(req.originalUrl.split('?')[0]);
 });
 
-exports.getAllBookings = factory.getAll(Booking);
-exports.getBooking = factory.getOne(Booking);
-exports.createBooking = factory.createOne(Booking);
-exports.updateBooking = factory.updateOne(Booking);
-exports.deleteBooking = factory.deleteOne(Booking);
+const getAllBookings = factory.getAll(Booking);
+const getBooking = factory.getOne(Booking);
+const createBooking = factory.createOne(Booking);
+const updateBooking = factory.updateOne(Booking);
+const deleteBooking = factory.deleteOne(Booking);
+
+module.exports = {
+  getCheckoutSession,
+  createBookingCheckout,
+  getAllBookings,
+  getBooking,
+  createBooking,
+  updateBooking,
+  deleteBooking,
+};

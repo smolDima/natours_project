@@ -2,7 +2,7 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 
-exports.deleteOne = (Model) =>
+const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
 
@@ -16,7 +16,7 @@ exports.deleteOne = (Model) =>
     });
   });
 
-exports.updateOne = (Model) =>
+const updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -35,7 +35,7 @@ exports.updateOne = (Model) =>
     });
   });
 
-exports.createOne = (Model) =>
+const createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
@@ -47,7 +47,7 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model, popOptions) =>
+const getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let query = await Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
@@ -65,7 +65,7 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = (Model) =>
+const getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested Get reviews on tour (hack)
     let filter = {};
@@ -90,3 +90,11 @@ exports.getAll = (Model) =>
       },
     });
   });
+
+module.exports = {
+  deleteOne,
+  updateOne,
+  createOne,
+  getOne,
+  getAll,
+};
